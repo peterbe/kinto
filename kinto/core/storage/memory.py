@@ -292,7 +292,7 @@ class Storage(MemoryBasedStorage):
         modified_field=DEFAULT_MODIFIED_FIELD,
         auth=None,
     ):
-        parent_id_match = re.compile(parent_id.replace("*", ".*"))
+        parent_id_match = re.compile(rf'{parent_id.replace("*", ".*")}')
         by_parent_id = {
             pid: resources
             for pid, resources in self._cemetery.items()
@@ -508,7 +508,7 @@ def apply_filters(objects, filters):
                 # Add implicit start/end wildchars if none is specified.
                 if "*" not in right:
                     right = f"*{right}*"
-                right = f"^{right.replace('*', '.*')}$"
+                right = rf"^{right.replace('*', '.*')}$"
             elif f.operator in (
                 COMPARISON.LT,
                 COMPARISON.MAX,
